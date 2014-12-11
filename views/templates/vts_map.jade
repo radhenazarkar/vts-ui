@@ -1,12 +1,18 @@
 .container(ng-controller='mapController')
-	.col-md-10
-		#mapId.mapContainer
+	.col-md-9
+		#vtsMapId.mapContainer
 	|   
-	.col-md-2
+	.col-md-3
 		div
-			ul
-				li(ng-repeat='item in items', ng-click='driverStateClick( item )')
-					label
-						input(type='checkbox')
-						| {{item.name}}{{item.count}}
-				
+			form#driverStatesForm
+				ul.driverStateUl
+					li.selectAllWrap
+						label.curP
+							input.driverStateInput(type='checkbox', ng-model="selectAll")
+							| Select All
+					li(ng-repeat='item in items')
+						label.curP
+							img.markerStateIcon(src="{{item.img_url}}")
+							input.driverStateInput(type='checkbox', ng-value="item.state", name="state[]", ng-checked="selectAll")
+							| {{item.name}}
+					

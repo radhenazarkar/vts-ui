@@ -1,12 +1,10 @@
 'use strict';
 
-// Declare app level module which depends on filters, and services
-
-var routes =  { // if u are adding new url here add new url in urls.py also
+var routes =  {
         'home': {
             url: "/",
-            title: 'VTS UI | Map',
-            //loginRequired: true,
+            title: 'VTS | Map',
+            loginRequired: true,
             templateUrl: 'templates/vts_map'
         }
     };

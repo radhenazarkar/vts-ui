@@ -66,11 +66,14 @@ module.exports = function(app) {
 	});
 
       app.get('/api/get-drivers', function(req, res) {
+
+	console.log('Api called'+JSON.stringify(req.query));
 	var state = req.query.state || "Free";
 	db.collection('device_logs').find({"state": state, isBlocked: "false"}, {limit:100, fields:{latitude: 1, longitude: 1, state: 1}}).toArray(function(err, docs) {
-	  if(!err)
+	  if(!err){
+	  	console.log('Api called -> '+docs);
 	    return res.send(docs);
-	  else
+	  }else
 	    return res.send([]);
 	});
 
