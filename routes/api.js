@@ -10,73 +10,35 @@ MongoClient.connect('mongodb://mongo2.tfs.tfs:27017/vts', function(err, dbc) {
     db = dbc;
 });
 
-/*
-exports.name = function (req, res) {
-	var t = [],
-		state = req.query.state;
-	
-	if( state == 1){
-		t.push({
-	    	"latitude":13.074127563815,
-	    	"longitude":77.779769897461,
-	    	state: 1
-	    });
-	}
-	if(state == 2){
-		t.push({
-	    	"latitude":13.079143861039,
-	    	"longitude":77.796249389648,
-	    	state: 2
-	    });
-	}
-	
-  res.json({
-    status: "success",
-    locations: t
-  });
-};
-*/
-
 module.exports = function(app) { 
 	
-	app.get('/api/name', function(req, res) {
-	
-		var t = [],
-		state = req.query.state;
-	
-		if( state == 1){
-			t.push({
-		    	"latitude":13.074127563815,
-		    	"longitude":77.779769897461,
-		    	state: 1
-		    });
+	// login
+	app.post('/api/login', function(req, res) {
+		var params = req.body;
+		if(params.email == "a@a.com" && params.password == "123" ){
+			return res.send({status: "success", response_data: {
+				username: "a",
+				email: "a@a.com"
+			}});
 		}
-		if(state == 2){
-			t.push({
-		    	"latitude":13.079143861039,
-		    	"longitude":77.796249389648,
-		    	state: 2
-		    });
-		}
-	
-	  res.json({
-	    status: "success",
-	    locations: t
-	  });
+		return res.send({status: "error", error_desc: "Invalid email id"});
 	});
 
-      app.get('/api/get-drivers', function(req, res) {
+	// logout
+ 	app.get('/api/logout', function(req, res) {
+ 		return res.send({status: "success"});
+ 	});
 
-	console.log('Api called'+JSON.stringify(req.query));
-	var state = req.query.state || "Free";
-	db.collection('device_logs').find({"state": state, isBlocked: "false"}, {limit:100, fields:{latitude: 1, longitude: 1, state: 1}}).toArray(function(err, docs) {
-	  if(!err){
-	  	console.log('Api called -> '+docs);
-	    return res.send(docs);
-	  }else
-	    return res.send([]);
-	});
-
-      });
+	// Get Drive Details
+ 	app.get('/api/get-drivers', function(req, res) {
+		var state = req.query.state || "Free";
+			db.collection('device_logs').find({"state": state, isBlocked: "false"}, {limit:100, fields:{latitude: 1, longitude: 1, state: 1}}).toArray(function(err, docs) {
+			  if(!err){
+			  	console.log('Api called -> '+docs);
+			    return res.send(docs);
+			  }else
+			    return res.send([]);
+			});
+    });
 	
 }

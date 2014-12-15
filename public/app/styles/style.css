@@ -1,13 +1,18 @@
 .fl{float: left;}
 ul, li{list-style: none;}
 .logoWrap {margin: 8px 10px 0px 80px;}
+.bgf8{background: #f8da15}
+label.error{color: #dd0017;}
 input.driverStateInput{margin: 0px 10px;position: relative;top: 2px;}
 label{font-weight: normal;}
 .curP{cursor: pointer;}
 .driverStateUl{padding: 10px;border: 1px solid #ccc;}
-.vtsHeader{box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);height: 80px;margin-bottom: 20px;position: fixed;top: 0px;width: 100%;left: 0px;z-index: 1;background: #fff;}
+.vtsHeader{box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);height: 80px;margin-bottom: 20px;position: fixed;top: 0px;width: 100%;left: 0px;z-index: 2;background: #fff;}
 .phontomHeader{height: 100px;}
 #vtsMapId {height: 500px;border: 1px solid #ccc;}
 .markerStateIcon{width: 15px;}
 .selectAllWrap{margin-left:15px;}
 .selectAllWrap label{font-weight: bold;}
+.spin{background:rgba(0,0,0,0.3); position:absolute; top:0; right:0; bottom:0; left:0; z-index:1;display: none;}
+.loginWrap{max-width: 350px;margin: 0px auto;padding: 10px;box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);border-radius: 5px;}
+#signInFormID input{margin-bottom: 10px;height: 45px;font-size: 16px;}

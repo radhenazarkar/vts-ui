@@ -1,0 +1,5 @@
+div.loginWrap
+	form#signInFormID(ng-controller="loginController")
+		input.form-control(type='text', name='email', placeholder='email', autofocus)
+		input.form-control(type='password', name='password', placeholder='password')
+		button.btn.btn-lg.btn-block.bgf8(type='submit', ng-click="onLoginClick()") LOGIN

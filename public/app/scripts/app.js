@@ -1,14 +1,5 @@
 'use strict';
 
-var routes =  {
-        'home': {
-            url: "/",
-            title: 'VTS | Map',
-            loginRequired: true,
-            templateUrl: 'templates/vts_map'
-        }
-    };
-
 angular.module('vtsUi', [
     'ui.router',
     'ngResource',
@@ -22,7 +13,7 @@ angular.module('vtsUi')
         if(window.history && window.history.pushState){
             $locationProvider.html5Mode(true);
         }
-        for(var state in routes){
-            $stateProvider.state( state, routes[state] );  
+        for(var state in Helper.routes){
+            $stateProvider.state( state, Helper.routes[state] );  
         }
   }]);

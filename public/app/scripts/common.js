@@ -1,3 +1,7 @@
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 $.fn.serializeObject = function()
 {
     var o = {};
@@ -14,3 +18,37 @@ $.fn.serializeObject = function()
     });
     return o;
 };
+
+Helper = {
+    requireRule: function( obj, arr ) {
+        var len = arr.length
+            ,name;
+
+        while( len-- ){
+            name = arr[len];
+            if( obj[name] ){
+                obj[name].required = true;              
+            }else {
+                obj[name] = {
+                    required: true  
+                }               
+            }
+        }
+
+        return obj;
+    },
+    routes:  {
+        'home': {
+            url: "/",
+            title: 'VTS | Map',
+            loginRequired: true,
+            templateUrl: 'templates/map'
+        },
+        'login': {
+            url: "/login",
+            title: 'VTS | Login',
+            loginRequired: false,
+            templateUrl: 'templates/login'
+        }
+    }
+}
