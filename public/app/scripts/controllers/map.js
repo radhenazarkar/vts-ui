@@ -12,45 +12,60 @@ angular.module('vtsUi')
 			       mapTypeId: google.maps.MapTypeId.ROADMAP//TERRAIN
 			   },
 			   driverStates = [{
-				    name: "Free",
-				    img_url: '/app/images/tfs_device_Free.png',
-				    state: "Free"
-		  		}, {
 				    name: "Logout",
 					img_url: '/app/images/tfs_device_logout.png',
-					state: "logout"
-			  	}, {
-				    name: "@Pickup",
-					img_url: '/app/images/tfs_device_@Pickup.png',
-					state: "@Pickup"
-			  	}, {
-				    name: "Black Marked",
-					img_url: '/app/images/tfs_device_Blackmarked.png',
-					state: "Blackmarked"
-			  	}, {
-				    name: "Blocked",
-					img_url: '/app/images/tfs_device_Blocked.png',
-					state: "Blocked"
-			  	}, {
-				    name: "Meter Off",
-					img_url: '/app/images/tfs_device_MeterOff.png',
-					state: "MeterOff"
+					state: "logout",
+					selected: true
 			  	}, {
 				    name: "Meter On",
 					img_url: '/app/images/tfs_device_MeterOn.png',
-					state: "MeterOn"
-			  	}, {
-				    name: "On Duty",
-					img_url: '/app/images/tfs_device_OnDuty.png',
-					state: "OnDuty"
-			  	}, {
-				    name: "Reserved",
-					img_url: '/app/images/tfs_device_Reserved.png',
-					state: "Reserved"
+					state: "MeterOn",
+					selected: false
 			  	}, {
 				    name: "Signal Loss",
 					img_url: '/app/images/tfs_device_Signal Loss.png',
-					state: "Signal Loss"
+					state: "Signal Loss",
+					selected: false
+			  	}, {
+				    name: "Reserved",
+					img_url: '/app/images/tfs_device_Reserved.png',
+					state: "Reserved",
+					selected: false
+			  	}, {
+				    name: "On Duty",
+					img_url: '/app/images/tfs_device_OnDuty.png',
+					state: "OnDuty",
+					selected: false
+			  	}, {
+				    name: "@Pickup",
+					img_url: '/app/images/tfs_device_@Pickup.png',
+					state: "@Pickup",
+					selected: false
+			  	}, {
+				    name: "Free",
+				    img_url: '/app/images/tfs_device_Free.png',
+				    state: "Free",
+					selected: false
+		  		}, {
+				    name: "Meter Off",
+					img_url: '/app/images/tfs_device_MeterOff.png',
+					state: "MeterOff",
+					selected: false
+			  	}, {
+				    name: "Bidded",
+					img_url: '/app/images/tfs_device_bidded.png',
+					state: "bidded",
+					selected: false
+			  	}, {
+				    name: "Blocked",
+					img_url: '/app/images/tfs_device_Blocked.png',
+					state: "Blocked",
+					selected: false
+			  	}, {
+				    name: "Black Marked",
+					img_url: '/app/images/tfs_device_Blackmarked.png',
+					state: "Blackmarked",
+					selected: false
 			  	}],
 			  	driverStateObj = {},
 			   trafficLayer;   
@@ -99,20 +114,46 @@ angular.module('vtsUi')
 		            $scope.markers.push(marker);
 		  		}
 		  	},
-		  	getLocations = function(state){
-		   		var request = $http.get('/api/get-drivers?state='+state, {});
-		   		  clearMarkers();
-			  	  request.success(function (data, status, headers, config) {
-			  			generateMarkers(data);
-			  	  });
+		  	getLocations = function( states ){
+		  		clearMarkers();
+		  		if( states ){
+		  				$("#driverStatesForm .spin").show();
+			   		var request = $http.get('/api/get-drivers?states='+states, {});
+
+			   		  request.success(function (data, status, headers, config) {
+				  			generateMarkers(data);
+				  			$("#driverStatesForm .spin").hide();
+				  	  });
+				  	  request.error(function(){
+				  	  		$("#driverStatesForm .spin").hide();
+				  	  })
+			  	}
 		  	};
 			  	
 		  $scope.items = driverStates;
-		  $scope.selectAll = true;
+		  $scope.selectAll = false;
 
-		  getLocations("Free");
-		  $scope.onStateChnage = function(item){
-		  	debugger;
-			  getLocations(item.state);
+		  $scope.onSelectAllChange = function(){
+		  		var obj = $("#driverStatesForm").serializeObject();
+		  		$(".driverStateUl input[type='checkbox']").not(".selectAllInput").each(function(index, item){
+		  			item.checked = $scope.selectAll;
+		  		});
+		  		angular.forEach($scope.items, function (item) {
+		            item.selected = $scope.selectAll;
+		        });
+		        getLocations( obj["states[]"] );
 		  }
+		  $scope.onCheckChange = function(){
+		  		var obj = $("#driverStatesForm").serializeObject();
+		  		$scope.selectAll = $(".driverStateUl input[type='checkbox']:checked").not(".selectAllInput").length == $(".driverStateUl input[type='checkbox']").not(".selectAllInput").length
+			 	getLocations(  obj["states[]"] );
+		  }
+
+		  var states = [],
+		  	len = driverStates.length;	
+
+		  while( len-- ){
+		  	  driverStates[ len ].selected && states.push( driverStates[ len ].state );
+		  }
+		  getLocations( states );
 	}]);

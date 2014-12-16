@@ -9,11 +9,11 @@
 				ul.driverStateUl
 					li.selectAllWrap
 						label.curP
-							input.driverStateInput(type='checkbox', ng-model="selectAll")
+							input.driverStateInput.selectAllInput(type='checkbox', ng-model="selectAll", ng-change="onSelectAllChange()")
 							| Select All
 					li(ng-repeat='item in items')
 						label.curP
 							img.markerStateIcon(src="{{item.img_url}}")
-							input.driverStateInput(type='checkbox', ng-value="item.state", name="state[]", ng-checked="selectAll")
+							input.driverStateInput(type='checkbox', ng-model="item.selected", ng-value="item.state", name="states[]", ng-change="onCheckChange()")
 							| {{item.name}}
 					

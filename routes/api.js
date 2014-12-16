@@ -31,14 +31,17 @@ module.exports = function(app) {
 
 	// Get Drive Details
  	app.get('/api/get-drivers', function(req, res) {
-		var state = req.query.state || "Free";
-			db.collection('device_logs').find({"state": state, isBlocked: "false"}, {limit:100, fields:{latitude: 1, longitude: 1, state: 1}}).toArray(function(err, docs) {
+		var states = req.query.states;
+		if( states ){
+			db.collection('device_logs').find({"state": states, isBlocked: "false"}, {limit:100, fields:{latitude: 1, longitude: 1, state: 1}}).toArray(function(err, docs) {
 			  if(!err){
-			  	console.log('Api called -> '+docs);
-			    return res.send(docs);
+			  	return res.send(docs);
 			  }else
 			    return res.send([]);
 			});
+		}else {
+			return res.send([]);
+		}
     });
 	
 }
